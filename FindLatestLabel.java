@@ -52,7 +52,7 @@ public class FindLatestLabel {
                     if (label.split("\\.").length > 2) {
                         sameString = label.substring(0, label.lastIndexOf("."));
                     } else if (label.split("-").length >= 3) {
-                        Matcher m = Pattern.compile("^(.*[a-zA-Z]|\\d)+-").matcher(label);
+                        Matcher m = Pattern.compile("^(.*[a-zA-Z])+-").matcher(label);
                         while (m.find()) {
                             sameString = m.group(1);
                         }
