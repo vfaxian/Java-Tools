@@ -41,22 +41,16 @@ public class FindLatestLabel {
             System.out.println("------read files by line------");
             reader = new BufferedReader(new FileReader(file));
             String label = null;
-            String sameString = null;
+            String labelName = null;
+            String tempLabelName = null;
             String previousLabel = null;
             while ((label = reader.readLine()) != null) {
-                if (sameString != null && label.startsWith(sameString)) {
-                } else {
+                tempLabelName = getLabelName(label);
+                if (labelName == null || !tempLabelName.equals(labelName) || !label.startsWith(labelName)) {
                     if (previousLabel != null) {
                         System.out.println(previousLabel);
                     }
-                    if (label.split("\\.").length > 2) {
-                        sameString = label.substring(0, label.lastIndexOf("."));
-                    } else if (label.split("-").length >= 3) {
-                        Matcher m = Pattern.compile("^(.*([a-zA-Z]|[a-zA-Z]\\d))+-").matcher(label);
-                        while (m.find()) {
-                            sameString = m.group(1);
-                        }
-                    }
+                    labelName = getLabelName(label);
                 }
                 previousLabel = label;
             }
@@ -75,4 +69,16 @@ public class FindLatestLabel {
         }
     }
 
+    public String getLabelName(String label) {
+        String labelName = null;
+        if (label.split("\\.").length > 2) {
+            labelName = label.substring(0, label.lastIndexOf("."));
+        } else if (label.split("-").length >= 3) {
+            Matcher m = Pattern.compile("^(.*([a-zA-Z]|[a-zA-Z]\\d))+-").matcher(label);
+            while (m.find()) {
+                labelName = m.group(1);
+            }
+        }
+        return labelName;
+    }
 }
