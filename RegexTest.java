@@ -38,6 +38,20 @@ public class RegexTest {
         while(m.find()) {
             System.out.println(m.group(1));
         }
+        
+        /**
+         * Java中用正则表达式截取字符串中第一个出现的英文左括号之前的字符串。
+         * 比如：北京市（海淀区）（朝阳区）（ 西城区），截取结果为：北京市。
+         */
+        String text = "北京市(海淀区)(朝阳区)(西城区)";
+
+        //前面的.*?是非贪婪匹配的意思， 表示找到最小的就可以了
+        //(?=Expression) 顺序环视，(?=\\()就是匹配正括号
+        Pattern pattern = Pattern.compile(".*?(?=\\()");
+        Matcher matcher = pattern.matcher(text);
+        if (matcher.find()) {
+            System.out.println(matcher.group(0));
+        }
     }
 
 }
